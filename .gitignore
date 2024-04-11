@@ -1,0 +1,13 @@
+# Project Files
+__pycache__/
+/.vscode
+/.idea
+/.DS_Store
+/.env
+/.pytest_cache
+/.coverage
+/coverage.xml
+
+# Egg Info
+*.egg-info/
+*.egg-info
