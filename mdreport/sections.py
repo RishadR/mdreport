@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
+from rich.console import Console
 from mdutils.mdutils import MdUtils
+
 
 class Section(ABC):
     """
@@ -28,7 +30,7 @@ class TextSection(Section):
     Single text section in the markdown report.
     """
 
-    def __init__(self, heading, text):
+    def __init__(self, heading: str, text: str):
         self.heading = heading
         self.text = text
 
@@ -48,7 +50,7 @@ class ImageSection(Section):
     Single image section in the markdown report.
     """
 
-    def __init__(self, heading, image_path: str):
+    def __init__(self, heading: str, image_path: str):
         self.heading = heading
         self.image_path = image_path
 
@@ -82,3 +84,21 @@ class CodeSection(Section):
         if len(self.code) == 0:
             return False
         return True
+
+
+class RichSection(Section):
+    """
+    A Rich Section in the markdown report rendered using inline HTML
+    (Make sure the console object has record set to true before passing it to this class)
+    """
+
+    def __init__(self, heading: str, console: Console) -> None:
+        self.heading = heading
+        self.console = console.copy()
+
+    def render(self, md_file: MdUtils):
+        md_file.new_header(level=1, title=self.heading)
+        md_file.new_line(text=self.console.export_html())
+
+    def is_valid(self) -> bool:
+        return self.console.record
