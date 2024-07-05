@@ -4,9 +4,10 @@ Generate a report as a markdown file for future reference. Useful for storing ex
 
 from pathlib import Path
 from typing import List
+from rich.console import Console
 from mdutils.mdutils import MdUtils
 from matplotlib.figure import Figure
-from .sections import Section, TextSection, ImageSection, CodeSection
+from mdreport.sections import Section, TextSection, ImageSection, CodeSection, RichSection
 
 
 class MarkdownReport:
@@ -76,6 +77,13 @@ class MarkdownReport:
         """
         code_section = CodeSection(heading, code, language)
         self.sections.append(code_section)
+
+    def add_rich_text_report(self, heading, rich_console: Console) -> None:
+        """
+        Add a rich text section to the report.
+        """
+        rich_section = RichSection(heading, rich_console)
+        self.sections.append(rich_section)
 
     def save_report(self):
         """
