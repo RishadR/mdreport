@@ -94,7 +94,9 @@ class RichSection(Section):
 
     def __init__(self, heading: str, console: Console) -> None:
         self.heading = heading
-        self.console = console.copy()
+        self.console = console
+        if not self.console.record:
+            raise ValueError("Console object must have record set to True before passing")
 
     def render(self, md_file: MdUtils):
         md_file.new_header(level=1, title=self.heading)
